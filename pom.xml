@@ -48,13 +48,6 @@
             <version>${junit.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-runner -->
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-runner</artifactId>
-            <version>${junit-runner.version}</version>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-junit5 -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
@@ -111,9 +104,9 @@
                         -Dfile.encoding=${encoding.type}
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
-<!--                    <systemPropertyVariables>-->
-<!--                        <allure.results.directory>${project.build.directory}/reports/allure-results</allure.results.directory>-->
-<!--                    </systemPropertyVariables>-->
+                    <systemPropertyVariables>
+                        <allure.results.directory>${project.build.directory}/reports/allure-results</allure.results.directory>
+                    </systemPropertyVariables>
                     <properties>
                         <property>
                             <name>listener</name>
