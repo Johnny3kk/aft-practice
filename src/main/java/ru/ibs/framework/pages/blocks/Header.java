@@ -1,5 +1,6 @@
 package ru.ibs.framework.pages.blocks;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -24,10 +25,10 @@ public class Header {
   @FindBy(xpath = "//img[@alt='Ozon']")
   private WebElement logo;
 
-  @FindBy(xpath = "//input[@class='w9s']")
+  @FindBy(xpath = "//div[@data-widget='searchBarDesktop']//input[@name]")
   private WebElement search;
 
-  @FindBy(xpath = "//button[@class='sx0']")
+  @FindBy(xpath = "//div[@data-widget='searchBarDesktop']//button")
   private WebElement searchBtn;
 
   public SearchingResultPage searchProduct(String productName) {

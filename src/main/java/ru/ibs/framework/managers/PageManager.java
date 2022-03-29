@@ -2,6 +2,7 @@ package ru.ibs.framework.managers;
 
 
 import ru.ibs.framework.pages.SearchingResultPage;
+import ru.ibs.framework.pages.ShoppingCartPage;
 import ru.ibs.framework.pages.StartPage;
 
 public class PageManager {
@@ -10,6 +11,7 @@ public class PageManager {
 
   private StartPage startPage;
   private SearchingResultPage searchPage;
+  private ShoppingCartPage cartPage;
 
   private PageManager() {}
 
@@ -32,6 +34,13 @@ public class PageManager {
       searchPage = new SearchingResultPage();
     }
     return searchPage;
+  }
+
+  public ShoppingCartPage getCartPage() {
+    if (cartPage == null) {
+      cartPage = new ShoppingCartPage();
+    }
+    return cartPage;
   }
 
 }

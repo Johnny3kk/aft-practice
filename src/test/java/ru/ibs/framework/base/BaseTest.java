@@ -25,9 +25,9 @@ public class BaseTest {
     driverManager.getDriver().get(propManager.getProperty(PropsConst.BASE_URL));
   }
 
-  @AfterAll
-  public static void after() {
-    InitManager.quitFramework();
-  }
+//  @AfterAll
+//  public static void after() {
+//    InitManager.quitFramework();
+//  }
 
 }

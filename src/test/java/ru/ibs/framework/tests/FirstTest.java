@@ -7,6 +7,10 @@ public class FirstTest extends BaseTest {
 
   @Test
   public void testScenario() {
-pageManager.getStartPage().checkOpenPage().getHeader().searchProduct("iphone");
+    pageManager
+        .getStartPage()
+        .productSearch("iphone")
+        .limitPrice("150000")
+        .clickOnHighRateCheck().clickOnNfcCheck().fillShoppingCart();
   }
 }
