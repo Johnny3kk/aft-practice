@@ -1,5 +1,7 @@
 package ru.ibs.framework.pages;
 
+import io.qameta.allure.Attachment;
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -11,6 +13,7 @@ import ru.ibs.framework.managers.PageManager;
 import ru.ibs.framework.managers.ProductManager;
 import ru.ibs.framework.pages.blocks.Header;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -107,5 +110,11 @@ public class BasePage {
       return false;
     }
     return true;
+  }
+
+  @Step("Приложение отчёта о всех добавленных товарах")
+  @Attachment(value = "ProductList", type = "text/plain", fileExtension = ".txt")
+  public byte[] printListOfProduct() {
+    return productManager.report().getBytes(StandardCharsets.UTF_8);
   }
 }

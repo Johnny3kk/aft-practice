@@ -77,13 +77,13 @@ public class SearchingResultPage extends BasePage {
           wait.until(ExpectedConditions.textToBePresentInElement(getHeader().getCartItemCount(), String.valueOf(inCart + 1)));
           Assertions.assertEquals(String.valueOf(inCart + 1), getHeader().getCartItemCount().getText());
           inCart++;
-          if (productManager.getProductList().size() == 4) {
+          if (productManager.getProductList().size() == 3) {
             break;
           }
         }
       }
     }
-    if (productManager.getProductList().size() < 4) {
+    if (productManager.getProductList().size() < 3) {
       nextSearchPage();
       fillShoppingCart();
     }
