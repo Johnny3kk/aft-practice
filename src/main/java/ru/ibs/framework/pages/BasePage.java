@@ -54,16 +54,6 @@ public class BasePage {
     javascriptExecutor.executeScript("window.scrollBy(0,-350)", "");
   }
 
-  protected void fillInputField(WebElement element, String value) {
-    scrollToElementJs(element);
-    waitUntilElementToBeVisible(element);
-    element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
-    element.sendKeys(value);
-
-    boolean checkFlag = wait.until(ExpectedConditions.attributeContains(element, "value", value));
-    Assertions.assertTrue(checkFlag, "Поле было заполнено неверно.");
-  }
-
   protected void clickOnCheckbox(List<WebElement> filtersList, String option, String value) {
     for (WebElement e : filtersList) {
       if (e.getText().contains(option)) {

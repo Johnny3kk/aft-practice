@@ -13,6 +13,6 @@ public class FirstTest extends BaseTest {
         .filterSetup("Высокий рейтинг", "")
         .filterSetup("Цена", "150000")
     .filterSetup("Беспроводные интерфейсы", "NFC")
-    .fillShoppingCart().toTheShoppingCart();
+    .fillShoppingCart().toTheShoppingCart().alertClose().cartRevision();
   }
 }
