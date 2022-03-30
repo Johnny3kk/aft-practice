@@ -53,12 +53,14 @@ public class SearchingResultPage extends BasePage {
     return this;
   }
 
+  @Step("Наполняем корзину 8 чётными найденными товарами с обычной доставкой")
   public SearchingResultPage fillShoppingCart() {
-    String string =
+    int inCart = 0;
+    String btnXpath =
         "./../../../..//button/span[not(contains(@class, 'ui-d8')) and not(contains(@class, 'ui-e8'))]";
     for (int i = 0; i < foundProductList.size(); i++) {
       if (i % 2 != 0) {
-        if (hasXpath(foundProductList.get(i), string)) {
+        if (hasXpath(foundProductList.get(i), btnXpath)) {
           productManager.add(
               new Product(
                   foundProductList.get(i).getText(),
@@ -71,12 +73,10 @@ public class SearchingResultPage extends BasePage {
                           .getText()
                           .trim()
                           .replaceAll("[^0-9]", ""))));
-          foundProductList
-              .get(i)
-              .findElement(
-                  By.xpath(
-                      "./../../../..//button/span[not(contains(@class, 'ui-d8')) and not(contains(@class, 'ui-e8'))]"))
-              .click();
+          foundProductList.get(i).findElement(By.xpath(btnXpath)).click();
+          wait.until(ExpectedConditions.textToBePresentInElement(getHeader().getCartItemCount(), String.valueOf(inCart + 1)));
+          Assertions.assertEquals(String.valueOf(inCart + 1), getHeader().getCartItemCount().getText());
+          inCart++;
           if (productManager.getProductList().size() == 8) {
             break;
           }
@@ -89,6 +89,11 @@ public class SearchingResultPage extends BasePage {
       fillShoppingCart();
     }
     return this;
+  }
+
+  public ShoppingCartPage toTheShoppingCart() {
+    waitUntilElementToBeClickable(getHeader().getShoppingCart()).click();
+    return pageManager.getCartPage();
   }
 
   public void nextSearchPage() {

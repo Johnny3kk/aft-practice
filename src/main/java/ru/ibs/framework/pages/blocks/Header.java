@@ -1,6 +1,5 @@
 package ru.ibs.framework.pages.blocks;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -31,6 +30,12 @@ public class Header {
   @FindBy(xpath = "//div[@data-widget='searchBarDesktop']//button")
   private WebElement searchBtn;
 
+  @FindBy(xpath = "//span[@class='tsCaptionBold mc']")
+  private WebElement cartItemCount;
+
+  @FindBy(xpath = "//span[contains(text(), 'Корзина')]")
+  private WebElement shoppingCart;
+
   public SearchingResultPage searchProduct(String productName) {
     wait.until(ExpectedConditions.elementToBeClickable(search));
     search.sendKeys(productName);
@@ -40,5 +45,13 @@ public class Header {
 
   public WebElement getLogo() {
     return logo;
+  }
+
+  public WebElement getCartItemCount() {
+    return cartItemCount;
+  }
+
+  public WebElement getShoppingCart() {
+    return shoppingCart;
   }
 }
