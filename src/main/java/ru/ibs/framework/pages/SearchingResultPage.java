@@ -15,60 +15,41 @@ public class SearchingResultPage extends BasePage {
   @FindBy(xpath = "//div[contains(text(), 'запрос')]")
   private WebElement title;
 
-  @FindBy(xpath = "//div[contains(text(), 'Цена')]/..//p[contains(text(), 'до')]/../input")
-  private WebElement priceTopBorder;
+  @FindBy(xpath = "//span[contains(text(), 'Все фильтры')]")
+  private WebElement filterSetup;
 
-  @FindBy(xpath = "//div[@value='Высокий рейтинг']")
-  private WebElement highRateCheck;
+  @FindBy(xpath = "//span[contains(text(), 'Применить')]")
+  private WebElement applyBtn;
 
-  @FindBy(xpath = "//span[contains(text(), 'NFC')]/../..")
-  private WebElement nfcCheck;
+  @FindBy(xpath = "//div[@data-widget='searchResultsFiltersActive']")
+  private WebElement appliedFilters;
 
   @FindBy(xpath = "//div[contains(text(), 'Дальше')]")
   private WebElement nextPageBtn;
 
+  @FindBy(xpath = "//h3[contains(text(), 'Все фильтры')]/../..//div/div/div")
+  private List<WebElement> filtersList;
+
   @FindBy(xpath = "//a[contains(@class, 'tile-hover-target')]/span")
   private List<WebElement> foundProductList;
 
-  @Step("Устанавливаем верхнюю границу цены '{price}'")
-  public SearchingResultPage limitPrice(String price) {
-    fillInputField(priceTopBorder, price);
-    return this;
-  }
+  @Step("Устанавливаем вариант фильтра поиска '{option}' с значением '{value}'")
+  public SearchingResultPage filterSetup(String option, String value) {
+    scrollToElementJs(filterSetup);
+    scrollBackJs();
+    waitUntilElementToBeClickable(filterSetup).click();
+    if (value.equals("")) {
+      clickOnToggle(filtersList, option);
+    } else if (isInteger(value)) {
+      fillTopBorderFilter(filtersList, option, value);
+    } else {
+      clickOnCheckbox(filtersList, option, value);
+    }
 
-  @Step("Включаем опцию 'Высокий рейтинг'")
-  public SearchingResultPage clickOnHighRateCheck() {
-    scrollToElementJs(highRateCheck.findElement(By.xpath("./../../..")));
-    waitUntilElementToBeVisible(highRateCheck);
-    waitUntilElementToBeClickable(highRateCheck).click();
-    //    waitUntilElementToBeClickable(getHeader().getLogo());
-    return this;
-  }
-
-  public SearchingResultPage assertOnHighRateCheck() {
-    //    checkOpenPage(title);
-    //    scrollToElementJs(priceTopBorder);
-    //    waitUntilElementToBeVisible(highRateCheck);
-    //    waitUntilElementToBeClickable(highRateCheck);
-    Assertions.assertTrue(highRateCheck.findElement(By.xpath("./..//input")).isSelected());
-    return this;
-  }
-
-  @Step("Включаем опцию 'NFC'")
-  public SearchingResultPage clickOnNfcCheck() {
-    scrollToElementJs(nfcCheck.findElement(By.xpath("./../../../..")));
-    waitUntilElementToBeVisible(nfcCheck);
-    waitUntilElementToBeClickable(nfcCheck).click();
-    pageManager.getSearchPage();
-    return this;
-  }
-
-  public SearchingResultPage assertOnNfc() {
-    checkOpenPage(title);
-    scrollToElementJs(nfcCheck.findElement(By.xpath("./../../../..")));
-    waitUntilElementToBeVisible(nfcCheck);
-    waitUntilElementToBeClickable(nfcCheck);
-    Assertions.assertTrue(nfcCheck.findElement(By.xpath(".//input")).isSelected());
+    scrollToElementJs(applyBtn);
+    waitUntilElementToBeClickable(applyBtn).click();
+    waitUntilElementToBeVisible(appliedFilters);
+    Assertions.assertTrue(appliedFilters.getText().contains(option));
     return this;
   }
 

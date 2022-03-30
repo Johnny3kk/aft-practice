@@ -10,7 +10,9 @@ public class FirstTest extends BaseTest {
     pageManager
         .getStartPage()
         .productSearch("iphone")
-        .limitPrice("150000")
-        .clickOnHighRateCheck().clickOnNfcCheck().fillShoppingCart();
+        .filterSetup("Высокий рейтинг", "")
+        .filterSetup("Цена", "150000")
+    .filterSetup("Беспроводные интерфейсы", "NFC")
+    .fillShoppingCart();
   }
 }
