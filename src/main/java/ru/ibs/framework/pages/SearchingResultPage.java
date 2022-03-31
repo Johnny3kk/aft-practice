@@ -35,6 +35,8 @@ public class SearchingResultPage extends BasePage {
   @FindBy(xpath = "//a[contains(@class, 'tile-hover-target')]/span")
   private List<WebElement> foundProductList;
 
+  private int inCart = 0;
+
   @Step("Устанавливаем вариант фильтра поиска '{option}' с значением '{value}'")
   public SearchingResultPage filterSetup(String option, String value) {
     scrollToElementJs(filterSetup);
@@ -58,10 +60,9 @@ public class SearchingResultPage extends BasePage {
 
   @Step("Наполняем корзину 8 чётными найденными товарами с обычной доставкой")
   public SearchingResultPage fillShoppingCart(String option, int numberOfPickingProducts) {
-    int inCart = 0;
     boolean pickOption;
     String btnXpath =
-        "./../../../..//button/span[not(contains(@class, 'ui-d8')) and not(contains(@class, 'ui-e8'))]";
+        "./../../../..//button/span[not(contains(@class, 'ui-d8')) and not(contains(@class, 'ui-e8')) and not(contains(@class, 'ui-c'))]";
     for (int i = 0; i < foundProductList.size(); i++) {
       if (option.equals("even")) {
         pickOption = i % 2 != 0;
@@ -98,6 +99,11 @@ public class SearchingResultPage extends BasePage {
     if (productManager.getProductList().size() < numberOfPickingProducts) {
       nextSearchPage();
       fillShoppingCart(option, numberOfPickingProducts);
+    } else if (productManager.getProductList().size() > numberOfPickingProducts) {
+      if (hasXpath("//div[contains(text(), 'Дальше')]")) {
+        nextSearchPage();
+        fillShoppingCart(option, numberOfPickingProducts);
+      }
     }
     return this;
   }

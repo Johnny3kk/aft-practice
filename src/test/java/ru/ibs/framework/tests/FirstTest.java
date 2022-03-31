@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import ru.ibs.framework.base.BaseTest;
 import ru.ibs.framework.pages.StartPage;
 
+import java.io.IOException;
+
 public class FirstTest extends BaseTest {
 
   @Test
@@ -14,11 +16,11 @@ public class FirstTest extends BaseTest {
         .filterSetup("Высокий рейтинг", "")
         .filterSetup("Цена", "150000")
         .filterSetup("Беспроводные интерфейсы", "NFC")
-        .fillShoppingCart("even", 3)
+        .fillShoppingCart("even", 8)
         .toTheShoppingCart()
         .alertClose()
         .cartItemRevision()
-        .cartSumRevision("Ваша корзина - 3 товара")
+        .cartSumRevision("Ваша корзина - 8 товаров")
         .deleteAll()
         .isEmpty()
         .printListOfProduct();
@@ -34,11 +36,11 @@ public class FirstTest extends BaseTest {
         .filterSetup("Бренды", "Xiaomi")
         .filterSetup("Цена", "50000")
         .filterSetup("Высокий рейтинг", "")
-        .fillShoppingCart("odd", 3)
+        .fillShoppingCart("odd", -1)
         .toTheShoppingCart()
         .alertClose()
         .cartItemRevision()
-        .cartSumRevision("Ваша корзина - 3 товара")
+        .cartSumRevision("Ваша корзина - N товаров")
         .deleteAll()
         .isEmpty()
         .printListOfProduct();

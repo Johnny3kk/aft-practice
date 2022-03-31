@@ -7,7 +7,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.ibs.framework.utils.Product;
 
-import java.util.Arrays;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PipedWriter;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,8 +22,8 @@ public class ShoppingCartPage extends BasePage {
   @FindBy(xpath = "//div[contains(text(), 'Корзина')]")
   private WebElement title;
 
-  @FindBy(xpath = "//div[@id='split-Main-0']/div")
-  private List<WebElement> itemList;
+  @FindBy(xpath = "//div[@id='split-Main-0']")
+  private WebElement items;
 
   @FindBy(xpath = "//section[@data-widget='total']")
   private WebElement checkout;
@@ -42,19 +45,22 @@ public class ShoppingCartPage extends BasePage {
   @Step("Проверяем добавление в корзину всех выбранных продуктов")
   public ShoppingCartPage cartItemRevision() {
     checkOpenPage(title);
+    String allInCart = items.getText().replaceAll("\n", " ");
     for (Product p : productManager.getProductList()) {
-      Assertions.assertTrue(
-          itemList.stream()
-              .map(WebElement::getText)
-              .collect(Collectors.joining(""))
+      Assertions.assertTrue(allInCart
               .contains(p.getTitle()));
+      System.out.println(p.getTitle());
     }
     return this;
   }
 
   @Step("Проверяем отображение текста '{string}' в корзине")
   public ShoppingCartPage cartSumRevision(String string) {
-    Assertions.assertTrue(checkout.getText().replaceAll("\n", " - ").contains(string));
+    String check = string;
+    if (string.contains("N")){
+      check = check.replaceAll("N", String.valueOf(productManager.getProductList().size())).replaceAll("товаров", "");
+    }
+    Assertions.assertTrue(checkout.getText().replaceAll("\n", " - ").contains(check));
     return this;
   }
 
