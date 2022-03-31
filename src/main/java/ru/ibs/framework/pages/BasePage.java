@@ -59,11 +59,18 @@ public class BasePage {
 
   protected void clickOnCheckbox(List<WebElement> filtersList, String option, String value) {
     for (WebElement e : filtersList) {
+      waitUntilElementToBeClickable(e);
       if (e.getText().contains(option)) {
         e.click();
-        waitUntilElementToBeClickable(
-                e.findElement(By.xpath(".//span[contains(text(), '" + value + "')]")))
-            .click();
+        if (hasXpath(e, ".//span[contains(text(), 'Посмотреть все')]")) {
+          e.findElement(By.xpath(".//span[contains(text(), 'Посмотреть все')]")).click();
+          WebElement input = e.findElement(By.xpath(".//input[@type='text']"));
+          waitUntilElementToBeClickable(input).click();
+          input.sendKeys(value);
+        }
+        WebElement filter = e.findElement(By.xpath(".//span[contains(text(), '" + value + "')]"));
+        waitUntilElementToBeVisible(filter);
+        waitUntilElementToBeClickable(filter).click();
         break;
       }
     }
@@ -78,11 +85,14 @@ public class BasePage {
     }
   }
 
-  protected void fillTopBorderFilter(List<WebElement> filtersList, String option, String value) {
+  protected boolean fillTopBorderFilter(List<WebElement> filtersList, String option, String value) {
     for (WebElement e : filtersList) {
       if (e.getText().contains(option)) {
         e.click();
         WebElement input = e.findElement(By.xpath(".//p[contains(text(), 'до')]/../input"));
+        if (Integer.parseInt(input.getAttribute("value")) < Integer.parseInt(value)) {
+          return false;
+        }
         waitUntilElementToBeClickable(input).click();
         input.sendKeys(Keys.chord(Keys.CONTROL, "a"));
         input.sendKeys(Keys.chord(value, Keys.ENTER));
@@ -92,11 +102,21 @@ public class BasePage {
         break;
       }
     }
+    return true;
   }
 
   protected boolean hasXpath(WebElement element, String xpath) {
     try {
       element.findElement(By.xpath(xpath));
+      return true;
+    } catch (NoSuchElementException e) {
+      return false;
+    }
+  }
+
+  protected boolean hasXpath(String xpath) {
+    try {
+      driverManager.getDriver().findElement(By.xpath(xpath));
       return true;
     } catch (NoSuchElementException e) {
       return false;

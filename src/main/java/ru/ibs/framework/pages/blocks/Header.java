@@ -30,8 +30,8 @@ public class Header {
   @FindBy(xpath = "//div[@data-widget='searchBarDesktop']//button")
   private WebElement searchBtn;
 
-  //TODO проверить xpath на ликвидность
-  @FindBy(xpath = "//span[@class='tsCaptionBold mc']")
+  // TODO проверить xpath на ликвидность
+  @FindBy(xpath = "//a[@data-widget='headerIcon']/span")
   private WebElement cartItemCount;
 
   @FindBy(xpath = "//span[contains(text(), 'Корзина')]")

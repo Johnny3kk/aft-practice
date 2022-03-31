@@ -27,7 +27,9 @@ public class SearchingResultPage extends BasePage {
   @FindBy(xpath = "//div[contains(text(), 'Дальше')]")
   private WebElement nextPageBtn;
 
-  @FindBy(xpath = "//h3[contains(text(), 'Все фильтры')]/../..//div/div/div")
+  @FindBy(
+      xpath =
+          "//h3[contains(text(), 'Все фильтры')]/../../div/div[not(@data-widget='searchResultsFiltersActive')]/div")
   private List<WebElement> filtersList;
 
   @FindBy(xpath = "//a[contains(@class, 'tile-hover-target')]/span")
@@ -41,14 +43,15 @@ public class SearchingResultPage extends BasePage {
     if (value.equals("")) {
       clickOnToggle(filtersList, option);
     } else if (isInteger(value)) {
-      fillTopBorderFilter(filtersList, option, value);
+      if (!fillTopBorderFilter(filtersList, option, value)) {
+        pushAcceptFilterBtn();
+        return this;
+      }
     } else {
       clickOnCheckbox(filtersList, option, value);
     }
 
-    scrollToElementJs(applyBtn);
-    waitUntilElementToBeClickable(applyBtn).click();
-    waitUntilElementToBeVisible(appliedFilters);
+    pushAcceptFilterBtn();
     Assertions.assertTrue(appliedFilters.getText().contains(option));
     return this;
   }
@@ -65,7 +68,7 @@ public class SearchingResultPage extends BasePage {
       } else {
         pickOption = i % 2 == 0;
       }
-        if (pickOption) {
+      if (pickOption) {
         if (hasXpath(foundProductList.get(i), btnXpath)) {
           productManager.add(
               new Product(
@@ -80,8 +83,11 @@ public class SearchingResultPage extends BasePage {
                           .trim()
                           .replaceAll("[^0-9]", ""))));
           foundProductList.get(i).findElement(By.xpath(btnXpath)).click();
-          wait.until(ExpectedConditions.textToBePresentInElement(getHeader().getCartItemCount(), String.valueOf(inCart + 1)));
-          Assertions.assertEquals(String.valueOf(inCart + 1), getHeader().getCartItemCount().getText());
+          wait.until(
+              ExpectedConditions.textToBePresentInElement(
+                  getHeader().getCartItemCount(), String.valueOf(inCart + 1)));
+          Assertions.assertEquals(
+              String.valueOf(inCart + 1), getHeader().getCartItemCount().getText());
           inCart++;
           if (productManager.getProductList().size() == numberOfPickingProducts) {
             break;
@@ -109,5 +115,11 @@ public class SearchingResultPage extends BasePage {
         driverManager
             .getDriver()
             .findElements(By.xpath("//a[contains(@class, 'tile-hover-target')]/span"));
+  }
+
+  public void pushAcceptFilterBtn() {
+    scrollToElementJs(applyBtn);
+    waitUntilElementToBeClickable(applyBtn).click();
+    waitUntilElementToBeVisible(appliedFilters);
   }
 }
