@@ -30,6 +30,7 @@ public class Header {
   @FindBy(xpath = "//div[@data-widget='searchBarDesktop']//button")
   private WebElement searchBtn;
 
+  //TODO проверить xpath на ликвидность
   @FindBy(xpath = "//span[@class='tsCaptionBold mc']")
   private WebElement cartItemCount;
 
@@ -40,7 +41,7 @@ public class Header {
     wait.until(ExpectedConditions.elementToBeClickable(search));
     search.sendKeys(productName);
     wait.until(ExpectedConditions.elementToBeClickable(searchBtn)).click();
-    return pageManager.getSearchPage();
+    return pageManager.getPage(SearchingResultPage.class);
   }
 
   public WebElement getLogo() {

@@ -29,14 +29,20 @@ public class ProductManager {
     return productList;
   }
 
+  public void clearProductList() {
+    productList.clear();
+  }
+
   public Product maxPriceInShoppingCart() {
     return productList.stream().max(Comparator.comparingInt(Product::getPrice)).get();
   }
 
   public String report() {
     String result = "Самый дорогой товар в корзине - " + maxPriceInShoppingCart().getTitle() + "\n";
+    result = result.concat("-----------------------------------------------------------");
     for (Product p : productList) {
-      result = result.concat("Наименование: " + p.getTitle() + "\n\tЦена: " + p.getPrice() + "\n");
+      result = result.concat("Наименование: " + p.getTitle() + "\n\tЦена: " + p.getPrice() + " руб." + "\n");
+      result = result.concat("-----------------------------------------------------------");
     }
     return result;
   }

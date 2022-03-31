@@ -10,6 +10,6 @@ public class StartPage extends BasePage {
   public SearchingResultPage productSearch(String productName) {
     checkOpenPage(getHeader().getLogo());
     getHeader().searchProduct(productName);
-    return pageManager.getSearchPage();
+    return pageManager.getPage(SearchingResultPage.class);
   }
 }

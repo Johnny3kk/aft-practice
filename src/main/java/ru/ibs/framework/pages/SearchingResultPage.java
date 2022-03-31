@@ -54,12 +54,18 @@ public class SearchingResultPage extends BasePage {
   }
 
   @Step("Наполняем корзину 8 чётными найденными товарами с обычной доставкой")
-  public SearchingResultPage fillShoppingCart() {
+  public SearchingResultPage fillShoppingCart(String option, int numberOfPickingProducts) {
     int inCart = 0;
+    boolean pickOption;
     String btnXpath =
         "./../../../..//button/span[not(contains(@class, 'ui-d8')) and not(contains(@class, 'ui-e8'))]";
     for (int i = 0; i < foundProductList.size(); i++) {
-      if (i % 2 != 0) {
+      if (option.equals("even")) {
+        pickOption = i % 2 != 0;
+      } else {
+        pickOption = i % 2 == 0;
+      }
+        if (pickOption) {
         if (hasXpath(foundProductList.get(i), btnXpath)) {
           productManager.add(
               new Product(
@@ -77,26 +83,27 @@ public class SearchingResultPage extends BasePage {
           wait.until(ExpectedConditions.textToBePresentInElement(getHeader().getCartItemCount(), String.valueOf(inCart + 1)));
           Assertions.assertEquals(String.valueOf(inCart + 1), getHeader().getCartItemCount().getText());
           inCart++;
-          if (productManager.getProductList().size() == 3) {
+          if (productManager.getProductList().size() == numberOfPickingProducts) {
             break;
           }
         }
       }
     }
-    if (productManager.getProductList().size() < 3) {
+    if (productManager.getProductList().size() < numberOfPickingProducts) {
       nextSearchPage();
-      fillShoppingCart();
+      fillShoppingCart(option, numberOfPickingProducts);
     }
     return this;
   }
 
   public ShoppingCartPage toTheShoppingCart() {
     waitUntilElementToBeClickable(getHeader().getShoppingCart()).click();
-    return pageManager.getCartPage();
+    return pageManager.getPage(ShoppingCartPage.class);
   }
 
   public void nextSearchPage() {
-    scrollToElementJs(nextPageBtn.findElement(By.xpath("./../../../../../../..")));
+    scrollToElementJs(nextPageBtn);
+    scrollBackJs();
     waitUntilElementToBeClickable(nextPageBtn).click();
     foundProductList =
         driverManager
