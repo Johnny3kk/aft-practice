@@ -11,6 +11,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PipedWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +24,7 @@ public class ShoppingCartPage extends BasePage {
   @FindBy(xpath = "//div[contains(text(), 'Корзина')]")
   private WebElement title;
 
-  @FindBy(xpath = "//div[@id='split-Main-0']")
+  @FindBy(xpath = "//div[@id='split-Main-0']/..")
   private WebElement items;
 
   @FindBy(xpath = "//section[@data-widget='total']")
@@ -38,18 +40,18 @@ public class ShoppingCartPage extends BasePage {
   private WebElement titleWhenEmpty;
 
   public ShoppingCartPage alertClose() {
-    waitUntilElementToBeClickable(alertList.get(1)).click();
+    if (hasXpath("//span[contains(text(), 'Оплачивайте')]/../../..//button")) {
+      waitUntilElementToBeClickable(alertList.get(1)).click();
+    }
     return this;
   }
 
   @Step("Проверяем добавление в корзину всех выбранных продуктов")
   public ShoppingCartPage cartItemRevision() {
     checkOpenPage(title);
-    String allInCart = items.getText().replaceAll("\n", " ");
+    List<String> allInCart = new ArrayList<>(Arrays.asList(items.getText().split("\n")));
     for (Product p : productManager.getProductList()) {
-      Assertions.assertTrue(allInCart
-              .contains(p.getTitle()));
-      System.out.println(p.getTitle());
+      Assertions.assertTrue(allInCart.contains(p.getTitle()));
     }
     return this;
   }

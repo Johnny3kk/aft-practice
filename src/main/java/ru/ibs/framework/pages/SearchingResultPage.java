@@ -58,7 +58,7 @@ public class SearchingResultPage extends BasePage {
     return this;
   }
 
-  @Step("Наполняем корзину 8 чётными найденными товарами с обычной доставкой")
+  @Step("Наполняем корзину найденными товарами с обычной доставкой")
   public SearchingResultPage fillShoppingCart(String option, int numberOfPickingProducts) {
     boolean pickOption;
     String btnXpath =

@@ -31,9 +31,9 @@ public class BaseTest {
     pageManager.clearMapPages();
   }
 
-//  @AfterAll
-//  public static void after() {
-//    InitManager.quitFramework();
-//  }
+  @AfterAll
+  public static void after() {
+    InitManager.quitFramework();
+  }
 
 }
