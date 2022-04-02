@@ -6,10 +6,11 @@ import ru.ibs.framework.pages.StartPage;
 
 public class StartPageStep {
 
-    PageManager pageManager = PageManager.getInstance();
+    private PageManager pageManager = PageManager.getInstance();
 
     @И("^Ищем '(.+)' в каталоге магазина$")
     public void productSearching(String searchRequest) {
         pageManager.getPage(StartPage.class).productSearch(searchRequest);
     }
+
 }

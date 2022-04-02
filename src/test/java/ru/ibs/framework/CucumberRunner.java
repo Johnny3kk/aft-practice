@@ -9,6 +9,6 @@ import org.junit.runner.RunWith;
         glue = {"ru.ibs.framework.steps"},
         features = {"src/test/resources/scenario/"},
         tags = {"@iphoneTest"},
-        plugin = {"ru.ibs.framework.utils.MyListener"})
+        plugin = {"ru.ibs.framework.utils.MyCucumberListener"})
 public class CucumberRunner {
 }

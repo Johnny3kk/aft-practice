@@ -24,7 +24,7 @@ public class ShoppingCartPage extends BasePage {
   @FindBy(xpath = "//div[contains(text(), 'Корзина')]")
   private WebElement title;
 
-  @FindBy(xpath = "//div[@id='split-Main-0']/..")
+  @FindBy(xpath = "//div[@id='split-Main-0']/../../../..")
   private WebElement items;
 
   @FindBy(xpath = "//section[@data-widget='total']")
@@ -46,7 +46,6 @@ public class ShoppingCartPage extends BasePage {
     return this;
   }
 
-  @Step("Проверяем добавление в корзину всех выбранных продуктов")
   public ShoppingCartPage cartItemRevision() {
     checkOpenPage(title);
     List<String> allInCart = new ArrayList<>(Arrays.asList(items.getText().split("\n")));
@@ -56,7 +55,6 @@ public class ShoppingCartPage extends BasePage {
     return this;
   }
 
-  @Step("Проверяем отображение текста '{string}' в корзине")
   public ShoppingCartPage cartSumRevision(String string) {
     String check = string;
     if (string.contains("N")){
@@ -66,7 +64,6 @@ public class ShoppingCartPage extends BasePage {
     return this;
   }
 
-  @Step("Удаляем все товары из корзины")
   public ShoppingCartPage deleteAll() {
     if (!cartControls.findElement(By.xpath(".//input")).isSelected()) {
       cartControls.findElement(By.xpath(".//input")).click();
@@ -76,7 +73,6 @@ public class ShoppingCartPage extends BasePage {
     return this;
   }
 
-  @Step("Проверяем, что корзина не содержит никаких товаров")
   public ShoppingCartPage isEmpty() {
     waitUntilElementToBeVisible(titleWhenEmpty);
     Assertions.assertEquals("Корзина пуста", titleWhenEmpty.getText().trim());

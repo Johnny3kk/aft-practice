@@ -37,12 +37,11 @@ public class SearchingResultPage extends BasePage {
 
   private int inCart = 0;
 
-  @Step("Устанавливаем вариант фильтра поиска '{option}' с значением '{value}'")
   public SearchingResultPage filterSetup(String option, String value) {
     scrollToElementJs(filterSetup);
     scrollBackJs();
     waitUntilElementToBeClickable(filterSetup).click();
-    if (value.equals("")) {
+    if (value.equals("*-")) {
       clickOnToggle(filtersList, option);
     } else if (isInteger(value)) {
       if (!fillTopBorderFilter(filtersList, option, value)) {
@@ -58,7 +57,6 @@ public class SearchingResultPage extends BasePage {
     return this;
   }
 
-  @Step("Наполняем корзину найденными товарами с обычной доставкой")
   public SearchingResultPage fillShoppingCart(String option, int numberOfPickingProducts) {
     boolean pickOption;
     String btnXpath =

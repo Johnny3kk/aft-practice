@@ -1,5 +1,6 @@
 package ru.ibs.framework.pages;
 
+import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
@@ -22,7 +23,7 @@ public class BasePage {
   protected DriverManager driverManager = DriverManager.getInstance();
   protected PageManager pageManager = PageManager.getInstance();
   protected ProductManager productManager = ProductManager.getInstance();
-  protected WebDriverWait wait = new WebDriverWait(driverManager.getDriver(), 17, 1500);
+  protected WebDriverWait wait = new WebDriverWait(driverManager.getDriver(), 10, 1000);
   protected Actions act = new Actions(driverManager.getDriver());
   private Header header = new Header();
 
@@ -132,9 +133,8 @@ public class BasePage {
     return true;
   }
 
-  @Step("Приложение отчёта о всех добавленных товарах")
-  @Attachment(value = "ProductList", type = "text/plain", fileExtension = ".txt")
-  public byte[] printListOfProduct() {
-    return productManager.report().getBytes(StandardCharsets.UTF_8);
+  public void printListOfProduct() {
+    Allure.getLifecycle().addAttachment("ProductList", "text/plain", ".txt", productManager.report().getBytes(StandardCharsets.UTF_8));
+//    return productManager.report().getBytes(StandardCharsets.UTF_8);
   }
 }
