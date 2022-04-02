@@ -135,6 +135,5 @@ public class BasePage {
 
   public void printListOfProduct() {
     Allure.getLifecycle().addAttachment("ProductList", "text/plain", ".txt", productManager.report().getBytes(StandardCharsets.UTF_8));
-//    return productManager.report().getBytes(StandardCharsets.UTF_8);
   }
 }
