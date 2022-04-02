@@ -24,7 +24,7 @@ public class ShoppingCartPage extends BasePage {
   @FindBy(xpath = "//div[contains(text(), 'Корзина')]")
   private WebElement title;
 
-  @FindBy(xpath = "//div[@id='split-Main-0']/..")
+  @FindBy(xpath = "//div[@id='split-Main-0']/../../../..")
   private WebElement items;
 
   @FindBy(xpath = "//section[@data-widget='total']")
