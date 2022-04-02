@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         glue = {"ru.ibs.framework.steps"},
         features = {"src/test/resources/scenario/"},
-        tags = {"@iphoneTest"},
+        tags = {"@iphoneTest or @headphoneTest"},
         plugin = {"ru.ibs.framework.utils.MyCucumberListener"})
 public class CucumberRunner {
 }
