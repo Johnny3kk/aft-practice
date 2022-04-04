@@ -1,8 +1,6 @@
 package ru.ibs.framework.pages;
 
 import io.qameta.allure.Allure;
-import io.qameta.allure.Attachment;
-import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -15,7 +13,6 @@ import ru.ibs.framework.managers.ProductManager;
 import ru.ibs.framework.pages.blocks.Header;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.List;
 
 public class BasePage {
@@ -37,7 +34,7 @@ public class BasePage {
 
   public void checkOpenPage(WebElement element) {
     waitUntilElementToBeVisible(element);
-    Assertions.assertTrue(element.isDisplayed());
+    Assertions.assertTrue(element.isDisplayed(), "Страница не загрузилась");
   }
 
   protected WebElement waitUntilElementToBeClickable(WebElement element) {

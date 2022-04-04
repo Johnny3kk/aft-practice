@@ -53,7 +53,8 @@ public class SearchingResultPage extends BasePage {
     }
 
     pushAcceptFilterBtn();
-    Assertions.assertTrue(appliedFilters.getText().contains(option));
+    Assertions.assertTrue(
+        appliedFilters.getText().contains(option), "Заданный фильтр поиска не применён.");
     return this;
   }
 
@@ -86,7 +87,9 @@ public class SearchingResultPage extends BasePage {
               ExpectedConditions.textToBePresentInElement(
                   getHeader().getCartItemCount(), String.valueOf(inCart + 1)));
           Assertions.assertEquals(
-              String.valueOf(inCart + 1), getHeader().getCartItemCount().getText());
+              String.valueOf(inCart + 1),
+              getHeader().getCartItemCount().getText(),
+              "Новый товар не добавлен в корзину.");
           inCart++;
           if (productManager.getProductList().size() == numberOfPickingProducts) {
             break;
@@ -94,10 +97,8 @@ public class SearchingResultPage extends BasePage {
         }
       }
     }
-    if (productManager.getProductList().size() < numberOfPickingProducts) {
-      nextSearchPage();
-      fillShoppingCart(option, numberOfPickingProducts);
-    } else if (productManager.getProductList().size() > numberOfPickingProducts) {
+    if (productManager.getProductList().size() < numberOfPickingProducts
+        || productManager.getProductList().size() > numberOfPickingProducts) {
       if (hasXpath("//div[contains(text(), 'Дальше')]")) {
         nextSearchPage();
         fillShoppingCart(option, numberOfPickingProducts);

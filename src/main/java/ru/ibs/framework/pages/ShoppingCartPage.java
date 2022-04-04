@@ -50,17 +50,23 @@ public class ShoppingCartPage extends BasePage {
     checkOpenPage(title);
     List<String> allInCart = new ArrayList<>(Arrays.asList(items.getText().split("\n")));
     for (Product p : productManager.getProductList()) {
-      Assertions.assertTrue(allInCart.contains(p.getTitle()));
+      Assertions.assertTrue(
+          allInCart.contains(p.getTitle()), "Выбранный при поиске товар не отображён в корзине.");
     }
     return this;
   }
 
   public ShoppingCartPage cartSumRevision(String string) {
     String check = string;
-    if (string.contains("N")){
-      check = check.replaceAll("N", String.valueOf(productManager.getProductList().size())).replaceAll("товаров", "");
+    if (string.contains("N")) {
+      check =
+          check
+              .replaceAll("N", String.valueOf(productManager.getProductList().size()))
+              .replaceAll("товаров", "");
     }
-    Assertions.assertTrue(checkout.getText().replaceAll("\n", " - ").contains(check));
+    Assertions.assertTrue(
+        checkout.getText().replaceAll("\n", " - ").contains(check),
+        "Сумма товаров для заказа не соответствует количеству ранее добавленных.");
     return this;
   }
 
@@ -75,7 +81,10 @@ public class ShoppingCartPage extends BasePage {
 
   public ShoppingCartPage isEmpty() {
     waitUntilElementToBeVisible(titleWhenEmpty);
-    Assertions.assertEquals("Корзина пуста", titleWhenEmpty.getText().trim());
+    Assertions.assertEquals(
+        "Корзина пуста",
+        titleWhenEmpty.getText().trim(),
+        "В корзине остались не удалённые товары.");
     return this;
   }
 }
